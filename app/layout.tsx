@@ -18,8 +18,8 @@ export const metadata: Metadata = {
     userScalable: true,
   },
   openGraph: {
-    title: "성탄절 초대합니다 🎄",
-    description: "날짜 · 장소 · 오시는 길 안내",
+    title: "성탄절 전야제에 초대합니다~! 🎄",
+    description: "하남주사랑교회 모바일 초대장",
     images: ["/images/invitation-1.png"], // 1200x630 권장, 필요시 /images/og.png 로 교체
   },
   icons: {

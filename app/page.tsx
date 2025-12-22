@@ -189,18 +189,22 @@ export default function InvitationPage() {
   const [currentPage, setCurrentPage] = useState(0) // 0: 첫번째, 1: 두번째, 2: 세번째(지도)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isBgmOn, setIsBgmOn] = useState(false)
+  const [autoBgmTriggered, setAutoBgmTriggered] = useState(false)
   const touchStartXRef = useRef<number | null>(null)
 
   const images = ["/images/invitation-1.png", "/images/invitation-2.png"]
 
   const TOTAL_PAGES = 3
 
-  const startBgm = () => {
+  const startBgm = (markAuto = false) => {
     const audio = audioRef.current
     if (!audio) return
     audio
       .play()
-      .then(() => setIsBgmOn(true))
+      .then(() => {
+        setIsBgmOn(true)
+        if (markAuto) setAutoBgmTriggered(true)
+      })
       .catch(() => {
         setIsBgmOn(false)
       })
@@ -208,8 +212,8 @@ export default function InvitationPage() {
 
   const goNextPage = () => {
     setCurrentPage((prev) => {
-      if (prev === 0 && !isBgmOn) {
-        startBgm()
+      if (prev === 0 && !isBgmOn && !autoBgmTriggered) {
+        startBgm(true) // 처음 한 번만 자동으로 ON
       }
       return (prev + 1) % TOTAL_PAGES
     })
