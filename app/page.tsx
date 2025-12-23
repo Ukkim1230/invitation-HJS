@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
+import { Volume2, VolumeX } from "lucide-react"
 
 function Snowflakes() {
   const [snowflakes, setSnowflakes] = useState<
@@ -286,10 +287,15 @@ export default function InvitationPage() {
       />
       <button
         onClick={toggleBgm}
-        className="absolute top-4 right-4 z-30 rounded-full bg-white/15 text-white px-4 py-2 text-sm font-medium backdrop-blur shadow-lg border border-white/25 hover:bg-white/25 active:scale-95 transition"
+        className="absolute top-4 right-4 z-30 rounded-full bg-white/20 text-white p-3 backdrop-blur-md shadow-2xl border-2 border-white/30 hover:bg-white/30 active:scale-95 transition-all duration-200 hover:scale-110"
         aria-pressed={isBgmOn}
+        aria-label={isBgmOn ? "BGM 끄기" : "BGM 켜기"}
       >
-        {isBgmOn ? "BGM: ON" : "BGM: OFF"}
+        {isBgmOn ? (
+          <Volume2 className="w-6 h-6" strokeWidth={2.5} />
+        ) : (
+          <VolumeX className="w-6 h-6" strokeWidth={2.5} />
+        )}
       </button>
       {!isMobile && <BokehEffect />}
       <Snowflakes />
