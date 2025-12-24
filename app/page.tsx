@@ -255,11 +255,11 @@ export default function InvitationPage() {
     }
   }
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     touchStartXRef.current = e.touches[0].clientX
   }
 
-  const handleTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     const startX = touchStartXRef.current
     if (startX == null) return
     const endX = e.changedTouches[0].clientX
