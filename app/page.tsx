@@ -187,15 +187,15 @@ function BokehEffect() {
 }
 
 export default function InvitationPage() {
-  const [currentPage, setCurrentPage] = useState(0) // 0: 첫번째, 1: 두번째, 2: 세번째(지도)
+  const [currentPage, setCurrentPage] = useState(0) // 0: 첫번째, 1: 두번째, 2: 세번째(일정표), 3: 네번째(지도)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isBgmOn, setIsBgmOn] = useState(false)
   const [autoBgmTriggered, setAutoBgmTriggered] = useState(false)
   const touchStartXRef = useRef<number | null>(null)
 
-  const images = ["/images/invitation-1.png", "/images/invitation-2.png"]
+  const images = ["/images/invitation-1.png", "/images/invitation-2.png", "/images/invitation-3.png"]
 
-  const TOTAL_PAGES = 3
+  const TOTAL_PAGES = 4
 
   const startBgm = (markAuto = false) => {
     const audio = audioRef.current
@@ -303,16 +303,16 @@ export default function InvitationPage() {
       {!isMobile && <ShimmerParticles />}
       <FloatingLights />
 
-      <button
+      <div
         onClick={goNextPage}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className="relative w-full h-screen cursor-pointer focus:outline-none z-20 active:scale-[0.98] transition-transform duration-150 touch-manipulation"
         aria-label="다음 페이지로 이동"
       >
-        <div className={`absolute inset-0 flex items-center justify-center ${isMobile ? 'p-0' : 'p-3 sm:p-6 md:p-8'}`}>
+        <div className={`absolute inset-0 flex items-center justify-center ${isMobile ? 'p-0' : 'p-3 sm:p-6 md:p-8'} pb-20`}>
           <div className={`relative w-full h-full ${isMobile ? '' : 'max-w-2xl'} flex items-center justify-center`}>
-            {currentPage < 2 ? (
+            {currentPage < 3 ? (
               <Image
                 src={images[currentPage] || "/placeholder.svg"}
                 alt={`크리스마스 초대장 ${currentPage + 1}`}
@@ -343,7 +343,114 @@ export default function InvitationPage() {
             )}
           </div>
         </div>
-      </button>
+
+        {/* 페이지 인디케이터 */}
+        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-2 z-20 pointer-events-none">
+          {Array.from({ length: TOTAL_PAGES }).map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentPage ? "bg-white w-6" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* 네비게이션 바 */}
+        <nav className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-neutral-900/95 to-neutral-900/80 backdrop-blur-md border-t border-white/10 z-30 pointer-events-auto">
+          <div className="h-full flex items-center justify-around px-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setCurrentPage(0)
+              }}
+              className={`flex flex-col items-center justify-center gap-1 px-6 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === 0 || currentPage === 1
+                  ? "text-amber-400 bg-amber-400/10"
+                  : "text-neutral-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              <span className="text-xs font-medium">초대장</span>
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setCurrentPage(2)
+              }}
+              className={`flex flex-col items-center justify-center gap-1 px-6 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === 2
+                  ? "text-amber-400 bg-amber-400/10"
+                  : "text-neutral-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <span className="text-xs font-medium">일정</span>
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setCurrentPage(3)
+              }}
+              className={`flex flex-col items-center justify-center gap-1 px-6 py-2 rounded-lg transition-all duration-200 ${
+                currentPage === 3
+                  ? "text-amber-400 bg-amber-400/10"
+                  : "text-neutral-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="text-xs font-medium">오시는길</span>
+            </button>
+          </div>
+        </nav>
+      </div>
     </main>
   )
 }
